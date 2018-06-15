@@ -1,0 +1,6 @@
+.Rhistory
+/data
+test.r
+*.html
+*.ipynb
+.DS_Store
