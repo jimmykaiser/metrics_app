@@ -51,11 +51,11 @@ make_hist_metric <- function(df, met, yr, this_year_flag = 1,
   if (this_year_flag == 1) {
     h <- make_hist(df, paste(met, yr, sep = " "),
                    paste(met, (yr - 1), sep = " "),
-                   paste(yr, met, sep = " "))
+                   paste(yr, "Value", sep = " "))
   } else {
     h <- make_hist(df, paste(met, yr, sep = " "),
                    paste(met, (yr + 1), sep = " "),
-                   paste(yr, met, sep = " "))
+                   paste(yr, "Value", sep = " "))
   }
   return(h)
 }

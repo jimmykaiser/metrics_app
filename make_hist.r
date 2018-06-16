@@ -29,7 +29,7 @@ make_hist <- function(df, varname, compname, title_label) {
     # Display summary stats in title of plot
     h <- h + labs(title = paste0(title_label, " (N = ", n, ", NAs = ",
                                  n_miss, ", Mean = ", avg, ", SD = ", sd, ")"),
-                  x = "value")
+                  x = varname)
     # Set scales based on numbers calculated above
     h <- h + xlim(globalmin, globalmax) + ylim(0, maxbar)
     # Vertical line for average; generates "geom_segment" error
