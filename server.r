@@ -5,6 +5,7 @@ library(shiny)
 library(ggplot2)
 library(dplyr)
 library(tidyr)
+library(plotly)
 this_year <- 2016
 last_year <- (this_year - 1)
 
@@ -62,25 +63,25 @@ shinyServer(
 
     ## Produce plots
     
-    output$scatter1 <- renderPlot({
-      make_scatter_comp(wdi_data, met = new_indicator(), 
+    output$scatter1 <- renderPlotly({
+      make_scatter_comp(wdi_data, met = new_indicator(),
                         comp_met = new_comp_indicator(),
                         this_year = this_year,
                         reg = new_region(), inc = new_income())
     })
     
-    output$scatter2 <- renderPlot({
+    output$scatter2 <- renderPlotly({
       make_scatter_yoy(wdi_data, met = new_indicator(), this_year = this_year,
                        reg = new_region(), inc = new_income())
     })
     
-    output$hist1 <- renderPlot({
+    output$hist1 <- renderPlotly({
       make_hist_metric(wdi_data, met = new_indicator(), 
                        yr = this_year, this_year_flag = 1,
                        reg = new_region(), inc = new_income())
     })
 
-    output$hist2 <- renderPlot({
+    output$hist2 <- renderPlotly({
       make_hist_metric(wdi_data, met = new_indicator(), 
                        yr = last_year, this_year_flag = 0,
                        reg = new_region(), inc = new_income())

@@ -38,8 +38,8 @@ make_scatter <- function(df, x_var, y_var,
     # Generate scatterplot
     df <- df[complete.cases(df), ] # remove rows with missing values
     names(df) <- c("id", "x_col", "y_col")
-    g <- ggplot(df, aes(x_col, y_col, label = id))
-    g <- g + geom_text() # + coord_equal()
+    g <- ggplot(df, aes(x_col, y_col, text = id)) 
+    g <- g + geom_point() 
     g <- g + xlim(x_min, x_max) + ylim(y_min, y_max)
     # Display summary stats in title of plot
     g <- g + labs(title = paste0(title_label, " (R = ", r_val,
@@ -54,11 +54,10 @@ make_scatter <- function(df, x_var, y_var,
       g <- g + geom_abline(slope = mod[2], intercept = mod[1])
     }
     # Change theme
-    g <- g + theme_bw(base_size = 14) + theme(legend.position = "none")
+    g <- g + theme_bw(base_size = 12) + theme(legend.position = "none")
     g <- g + theme(panel.grid.major = element_line(size = .5, color = "grey"),
                    axis.line = element_line(size = .7, color = "black"),
-                   text = element_text(size = 16),
-                   plot.title = element_text(size = 20))
+                   text = element_text(size = 12), plot.title = element_text(size = 16))
     return(g)
   }
 }

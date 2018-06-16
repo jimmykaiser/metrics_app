@@ -1,5 +1,6 @@
 ## UI.r
 library(shiny)
+library(plotly)
 shinyUI(fluidPage(
   titlePanel("World Development Indicators"),
   sidebarLayout(
@@ -34,10 +35,10 @@ shinyUI(fluidPage(
                   selected = "All")
     ),
     mainPanel(
-      plotOutput("scatter1", width = "100%", height = "600px"),
-      plotOutput("scatter2", width = "100%", height = "600px"),
-      plotOutput("hist1", width = "100%", height = "400px"),
-      plotOutput("hist2", width = "100%", height = "400px"))
-      
-  )
+      plotlyOutput("scatter1", width = "100%", height = "600px"), br(),
+      plotlyOutput("scatter2", width = "100%", height = "600px"), br(),
+      plotlyOutput("hist1", width = "100%", height = "400px"), br(),
+      plotlyOutput("hist2", width = "100%", height = "400px")
+      )
+    )
 ))

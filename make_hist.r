@@ -35,10 +35,10 @@ make_hist <- function(df, varname, compname, title_label) {
     # Vertical line for average; generates "geom_segment" error
     h <- h + geom_vline(xintercept = avg)
     # Set the theme
-    h <- h + theme_bw(base_size = 14)
+    h <- h + theme_bw(base_size = 12)
     h <- h + theme(panel.grid.major = element_line(size = .5, color = "grey"),
                    axis.line = element_line(size = .7, color = "black"),
-                   text = element_text(size = 16), plot.title = element_text(size = 20))
+                   text = element_text(size = 12), plot.title = element_text(size = 16))
     return(h)
   }
 }
