@@ -21,7 +21,7 @@ wdi_country <- read.csv(paste0(repo_dir, "data/WDICountry.csv"), stringsAsFactor
   filter(Region != "")
 
 # Filter to recent years and make long
-wdi_data <- wdi_data_raw %>% select_("Country" = "Country.Name", "Country.Code",
+wdi_data_all <- wdi_data_raw %>% select_("Country" = "Country.Name", "Country.Code",
                            "Indicator" = "Indicator.Name",
                           "Indicator.Code", "X2015", "X2016") %>% 
   # join topics for indicators
@@ -32,6 +32,21 @@ wdi_data <- wdi_data_raw %>% select_("Country" = "Country.Name", "Country.Code",
   # make table long
   gather(key = "Year", value = "Value", -Country, -Indicator, -Topic, -Region, -Income) %>% 
   mutate(Year = substr(Year, 2, 5))
+
+wdi_nas <- wdi_data %>% group_by(Year, Indicator, Topic) %>% 
+  # Find the percent of missing values for each indicator
+  summarize(n_nas = sum(is.na(Value)),
+            n_total = n()) %>% 
+  mutate(pct_na = n_nas / n_total) %>% 
+  ungroup() %>% 
+  # Flag to drop metrics with 90% or more missing values in a year
+  filter(pct_na >= 0.90) %>% 
+  mutate(to_drop = 1) %>% 
+  select(Indicator, to_drop) %>% 
+  distinct(Indicator, to_drop)
+
+wdi_data <- wdi_data_all %>% left_join(wdi_nas, by = "Indicator") %>% 
+  filter(is.na(to_drop)) %>% select(-to_drop)
 
 # Export as csv for app
 write.csv(wdi_data, paste0(repo_dir, "data/wdi_data.csv"), na = "", row.names = FALSE)
