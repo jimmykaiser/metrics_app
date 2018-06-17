@@ -4,3 +4,5 @@ test.r
 *.html
 *.ipynb
 .DS_Store
+run_app.r
+.Rapp.history

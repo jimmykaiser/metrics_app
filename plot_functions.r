@@ -13,7 +13,7 @@ make_scatter_yoy <- function(df, met, this_year, reg = "World", inc = "All") {
     df <- df %>% filter(Income == inc)
   }
   df <- df %>% unite(Indicator, Indicator, Year, sep = " ") %>%
-    select(Country, Indicator, Value)
+    select(Country, Indicator, Value, Region)
   g <- make_scatter(df, paste(met, last_year, sep = " "),
                      paste(met, this_year, sep = " "),
                      "Indicator Versus Previous Year",
@@ -32,7 +32,7 @@ make_scatter_comp <- function(df, met, comp_met, this_year, reg = "World", inc =
   if (inc != "All") {
     df <- df %>% filter(Income == inc)
   }
-  df <- df %>% select(Country, Indicator, Value)
+  df <- df %>% select(Country, Indicator, Value, Region)
   g <- make_scatter(df, comp_met, met, "Indicator Comparison")
   g <- ggplotly(g, tooltip = "text")
   return(g)

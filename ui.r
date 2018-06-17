@@ -21,7 +21,7 @@ shinyUI(fluidPage(
                     "Public Sector", "Gender"),
                   selected = "Economic Policy & Debt"),
       selectInput("comp_indicator", "Select Comparison Indicator", 
-                  c("Access to electricity (% of population)"),
+                  c("Fixed Broadband Subscriptions (per 100 people)"),
                   selected = "Fixed Broadband Subscriptions (per 100 people)"),
       selectInput("region", "Select Region", 
                   c("World", "South Asia", "Europe & Central Asia", 

@@ -1,20 +1,20 @@
 ## Function to make scatter plot based on input
 make_scatter <- function(df, x_var, y_var,
                          title_label, year_over_year = 0) {
-  names(df) <- c("id", "varname", "val")
-
+  names(df) <- c("id", "varname", "val", "region")
+  
   if (length(df$id) > 0) {
-  	df <- df[(df["varname"] == x_var) | (df["varname"] == y_var), ]
-	  dups <- df %>%
-	    group_by(id, varname) %>%
-	    filter(n() > 1)
-	  df <- transform(df, val = as.numeric(val))
-	  df <- df %>% spread(varname, val)
-	  x_vals = unlist(df[x_var])
-	  y_vals = unlist(df[y_var])
-	  allvals <- c(x_vals, y_vals)
-	}
-
+    df <- df[(df["varname"] == x_var) | (df["varname"] == y_var), ]
+    dups <- df %>%
+      group_by(id, region, varname) %>%
+      filter(n() > 1)
+    df <- transform(df, val = as.numeric(val))
+    df <- df %>% spread(varname, val)
+    x_vals = unlist(df[x_var])
+    y_vals = unlist(df[y_var])
+    allvals <- c(x_vals, y_vals)
+  }
+  
   # Check to make sure metric exists in data set
   if (length(df$id) > 0) {
     if (year_over_year == 1) {
@@ -37,15 +37,13 @@ make_scatter <- function(df, x_var, y_var,
     n_miss <- sum(is.na(y_vals))
     # Generate scatterplot
     df <- df[complete.cases(df), ] # remove rows with missing values
-    names(df) <- c("id", "x_col", "y_col")
+    names(df) <- c("id", "region", "x_col", "y_col")
     g <- ggplot(df, aes(x_col, y_col, text = id)) 
-    g <- g + geom_point() 
+    g <- g + geom_point(aes(color = factor(region), shape = factor(region))) 
     g <- g + xlim(x_min, x_max) + ylim(y_min, y_max)
     # Display summary stats in title of plot
-    g <- g + labs(title = paste0(title_label, " (R = ", r_val,
-                                 ", R2 = ", r2, 
-                                 ", N = ", n, ", NAs = ",
-                                 n_miss, ")"),
+    g <- g + labs(title = paste0(title_label, " (R = ", r_val, ", R2 = ", r2, 
+                                 ", N = ", n, ", NAs = ", n_miss, ")"),
                   x = x_var, y = y_var)
     if (year_over_year == 1) {
       g <- g + geom_abline(slope = 1, intercept = 0)
